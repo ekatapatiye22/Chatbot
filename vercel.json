@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/responses.js", "use": "@vercel/node" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "app.js", "use": "@vercel/static" },
+    { "src": "README.md", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/responses", "dest": "/api/responses.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
+
+

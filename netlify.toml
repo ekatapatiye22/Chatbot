@@ -1,0 +1,10 @@
+[build]
+  publish = "."
+  command = ""
+
+[[redirects]]
+  from = "/api/responses"
+  to = "/.netlify/functions/responses"
+  status = 200
+
+
