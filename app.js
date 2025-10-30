@@ -485,4 +485,70 @@ elements.messages.addEventListener('click', async (e) => {
   }
 });
 
+// Emoji picker logic
+const emojiList = [
+  "😀","😃","😄","😁","😆","😅","😂","🤣",
+  "😊","😇","🙂","🙃","😉","😌","😍","🥰",
+  "😘","😗","😚","😙","😋","😛","😝","😜",
+  "🤪","🤨","🧐","🤓","😎","🥳","🤩","🥸",
+  "😏","😒","😞","😔","😟","😕","🙁","☹️",
+  "😣","😖","😫","😩","🥺","😢","😭","😤",
+  "😠","😡","🤬","🤯","😳","🥵","🥶","😱",
+  "😨","😰","😥","😓","🤗","🤔","🤭","🤫",
+  "🤥","😶","😐","😑","😬","🙄","😯","😦",
+  "😧","😮","😲","🥱","😴","🤤","😪","😵",
+  "🤐","🥴","🤢","🤮","🤧","😷","🤒","🤕",
+  "🤑","🤠","😈","👿","👹","👺","🤡","💩",
+  "👻","💀","☠️","👽","👾","🤖","🎃","😺",
+  "😸","😹","😻","😼","😽","🙀","😿","😾"
+];
+const emojiBtn = document.getElementById('emoji-btn');
+const emojiPanel = document.getElementById('emoji-panel');
+const promptInput = document.getElementById('prompt');
+
+if (emojiPanel) {
+  emojiPanel.innerHTML = emojiList.map(e => `<button type="button" class="text-2xl p-1 hover:bg-pink-800/40 rounded transition">${e}</button>`).join('');
+}
+
+function showEmojiPanel(show) {
+  if (!emojiPanel) return;
+  emojiPanel.classList.toggle('hidden', !show);
+}
+
+let isEmojiOpen = false;
+emojiBtn?.addEventListener('click', e => {
+  e.preventDefault();
+  isEmojiOpen = !isEmojiOpen;
+  showEmojiPanel(isEmojiOpen);
+  // Focus prompt for insertion
+  if (isEmojiOpen && promptInput) promptInput.focus();
+});
+
+document.addEventListener('click', e => {
+  if (!emojiPanel || !emojiBtn) return;
+  if (e.target === emojiBtn) return;
+  if (emojiPanel.contains(e.target)) return;
+  if (!emojiPanel.classList.contains('hidden')) {
+    emojiPanel.classList.add('hidden');
+    isEmojiOpen = false;
+  }
+});
+
+emojiPanel?.addEventListener('click', e => {
+  if (!(e.target instanceof HTMLElement)) return;
+  const emoji = e.target.textContent;
+  if (!emoji) return;
+  // Insert at caret
+  if (promptInput) {
+    const start = promptInput.selectionStart;
+    const end = promptInput.selectionEnd;
+    const value = promptInput.value;
+    promptInput.value = value.slice(0, start) + emoji + value.slice(end);
+    promptInput.focus();
+    promptInput.selectionStart = promptInput.selectionEnd = start + emoji.length;
+  }
+  showEmojiPanel(false);
+  isEmojiOpen = false;
+});
+
 

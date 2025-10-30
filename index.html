@@ -4,106 +4,108 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Chatbot</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>[x-cloak] { display: none !important; }</style>
 </head>
-<body class="h-screen bg-slate-900 text-slate-100">
+<body class="h-screen text-slate-100 bg-gradient-to-tr from-indigo-800 via-purple-600 to-pink-500 selection:bg-pink-300/60">
   <div class="grid h-screen" style="grid-template-columns: 280px 1fr;">
-    <aside class="hidden md:block h-screen border-r border-slate-800 bg-slate-900/60 backdrop-blur">
-      <div class="flex items-center gap-2 px-4 pt-4">
-        <div class="text-xl">🤖</div>
-        <div class="font-bold tracking-tight">AI Chatbot</div>
+    <aside class="hidden md:block h-screen border-r border-slate-800 bg-gradient-to-b from-purple-800 via-indigo-900 to-slate-900/50 backdrop-blur shadow-lg">
+      <div class="flex items-center gap-3 px-5 pt-5 pb-3 bg-gradient-to-r from-pink-500 via-fuchsia-500 to-indigo-500 shadow-lg rounded-xl">
+        <div class="text-2xl drop-shadow-sm animate-bounce">🤖</div>
+        <div class="font-black text-lg tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 to-pink-300">AI Chatbot</div>
       </div>
-      <div class="px-4 py-4 space-y-3">
+      <div class="px-5 py-5 space-y-3">
         <div class="flex gap-2">
-          <button id="new-chat" class="flex-1 bg-slate-800 border border-slate-700 text-slate-100 rounded-lg px-3 py-2 text-sm">New chat</button>
-          <button id="open-settings" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-3 py-2 text-sm">Settings</button>
+          <button id="new-chat" class="flex-1 bg-pink-500 hover:bg-pink-400 transition-colors border border-fuchsia-400/60 text-white font-semibold rounded-lg px-3 py-2 text-sm shadow-md hover:shadow-lg">New chat</button>
+          <button id="open-settings" class="flex-1 bg-gradient-to-r from-fuchsia-500 to-blue-500 hover:from-fuchsia-400 hover:to-blue-400 transition-colors text-white rounded-lg px-3 py-2 text-sm font-semibold shadow">Settings</button>
         </div>
         <div class="flex gap-2">
-          <button id="export-json" class="flex-1 bg-slate-800 border border-slate-700 text-slate-100 rounded-lg px-3 py-2 text-sm">Export</button>
+          <button id="export-json" class="flex-1 bg-indigo-700 hover:bg-indigo-600 border border-pink-400/30 transition-colors text-white rounded-lg px-3 py-2 text-sm">Export</button>
           <label class="flex-1">
             <input id="import-json" type="file" accept="application/json" class="hidden" />
-            <span class="block text-center bg-slate-800 border border-slate-700 text-slate-100 rounded-lg px-3 py-2 text-sm cursor-pointer">Import</span>
+            <span class="block text-center bg-indigo-700 hover:bg-pink-600 border border-fuchsia-400/40 text-white rounded-lg px-3 py-2 text-sm cursor-pointer">Import</span>
           </label>
         </div>
-        <div class="grid grid-cols-2 gap-2">
-          <label class="block text-xs text-slate-400 space-y-2">
+        <div class="grid grid-cols-2 gap-3">
+          <label class="block text-xs text-pink-200 space-y-2">
             <span>Model</span>
-            <select id="model-select" class="w-full bg-slate-800/70 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <select id="model-select" class="w-full bg-slate-800/70 border border-pink-400/40 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-lg">
               <option value="gpt-4o-mini" selected>gpt-4o-mini</option>
               <option value="gpt-4.1-mini">gpt-4.1-mini</option>
             </select>
           </label>
-          <label class="block text-xs text-slate-400 space-y-2">
+          <label class="block text-xs text-fuchsia-200 space-y-2">
             <span>Temperature</span>
-            <input id="temperature" type="number" step="0.1" min="0" max="2" value="0.7" class="w-full bg-slate-800/70 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input id="temperature" type="number" step="0.1" min="0" max="2" value="0.7" class="w-full bg-slate-800/70 border border-pink-400/40 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-lg" />
           </label>
-          <label class="block text-xs text-slate-400 space-y-2">
+          <label class="block text-xs text-purple-200 space-y-2">
             <span>Top P</span>
-            <input id="top-p" type="number" step="0.05" min="0" max="1" value="1" class="w-full bg-slate-800/70 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <input id="top-p" type="number" step="0.05" min="0" max="1" value="1" class="w-full bg-slate-800/70 border border-pink-400/40 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-lg" />
           </label>
-          <label class="block text-xs text-slate-400 space-y-2 col-span-2">
+          <label class="block text-xs text-fuchsia-100 space-y-2 col-span-2">
             <span>System prompt</span>
-            <textarea id="system-prompt" rows="5" placeholder="You are a helpful AI assistant." class="w-full bg-slate-800/70 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            <textarea id="system-prompt" rows="5" placeholder="You are a helpful AI assistant." class="w-full bg-slate-800/70 border border-pink-400/40 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 shadow-lg"></textarea>
           </label>
           <div class="col-span-2 flex gap-2 text-xs">
-            <button id="preset-helpful" class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-2 py-1">Helpful Assistant</button>
-            <button id="preset-coder" class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-2 py-1">Code Assistant</button>
-            <button id="preset-summarize" class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-2 py-1">Summarizer</button>
+            <button id="preset-helpful" class="flex-1 bg-pink-800 border border-pink-400/50 text-pink-100 hover:bg-pink-600/90 rounded-lg px-2 py-1 shadow hover:shadow-fuchsia-500/30">Helpful Assistant</button>
+            <button id="preset-coder" class="flex-1 bg-indigo-800 border border-fuchsia-400/40 text-indigo-100 hover:bg-indigo-700/90 rounded-lg px-2 py-1 shadow hover:shadow-fuchsia-600/30">Code Assistant</button>
+            <button id="preset-summarize" class="flex-1 bg-gradient-to-r from-pink-700 via-fuchsia-700 to-blue-700 border border-pink-400/20 text-sky-200 hover:bg-pink-700/70 rounded-lg px-2 py-1 shadow">Summarizer</button>
           </div>
         </div>
-        <div class="text-xs text-slate-500">API key stored locally</div>
-        <div class="text-xs text-slate-400">Chats</div>
+        <div class="text-xs text-fuchsia-200/60 pt-1">API key stored locally</div>
+        <div class="text-xs text-fuchsia-100/80">Chats</div>
         <div id="session-list" class="space-y-1 max-h-[40vh] overflow-auto"></div>
       </div>
     </aside>
 
     <main class="grid grid-rows-[1fr_auto] h-screen">
-      <div id="messages" class="overflow-auto p-4 space-y-3" aria-live="polite"></div>
-
-      <form id="composer" class="grid grid-cols-[auto_1fr_auto] gap-2 p-3 border-t border-slate-800 bg-slate-900/70" autocomplete="off">
-        <button id="stop" type="button" class="w-10 h-10 grid place-items-center rounded-lg bg-slate-800 border border-slate-700 text-slate-200 disabled:opacity-50" title="Stop" aria-label="Stop" disabled>⏹</button>
-        <input id="prompt" type="text" placeholder="Send a message..." class="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <button id="send" class="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-4 text-sm" type="submit">Send</button>
+      <div id="messages" class="overflow-auto p-6 space-y-4 bg-gradient-to-br from-indigo-900/50 via-transparent to-pink-900/40">
+      </div>
+      <form id="composer" class="grid grid-cols-[auto_1fr_auto_auto] gap-2 p-3 border-t border-slate-800 bg-gradient-to-r from-purple-900 via-indigo-900 to-pink-900/70 shadow-lg relative" autocomplete="off">
+        <button id="stop" type="button" class="w-10 h-10 grid place-items-center rounded-full bg-fuchsia-700 border border-fuchsia-400/60 text-pink-100 hover:bg-pink-600 transition-colors duration-200 shadow disabled:opacity-50" title="Stop" aria-label="Stop" disabled>⏹</button>
+        <input id="prompt" type="text" placeholder="Send a message..." class="bg-indigo-800/80 border border-fuchsia-400/60 rounded-xl px-4 py-2 text-base text-white placeholder:text-fuchsia-200 focus:outline-none focus:ring-2 focus:ring-pink-400/80 transition-all duration-150 shadow-md" />
+        <button id="emoji-btn" type="button" title="Emoji" class="w-10 h-10 grid place-items-center rounded-full bg-pink-700 hover:bg-fuchsia-500 border border-fuchsia-300/60 text-lg shadow transition">😊</button>
+        <button id="send" class="bg-gradient-to-r from-pink-500 via-fuchsia-500 to-purple-500 hover:from-purple-500 hover:to-pink-400 text-white font-semibold rounded-xl px-6 py-2 text-base transition-all duration-150 shadow-lg hover:shadow-xl" type="submit">Send</button>
+        <div id="emoji-panel" class="absolute bottom-14 left-1/2 -translate-x-1/2 z-20 hidden bg-zinc-900/95 border border-pink-300/30 rounded-xl p-2 shadow-2xl grid grid-cols-8 gap-1 max-w-xs w-fit select-none overflow-auto" style="min-width:300px;"></div>
       </form>
     </main>
   </div>
 
-  <dialog id="settings-dialog" class="rounded-xl border border-slate-700 bg-slate-900 text-slate-100 p-4">
+  <dialog id="settings-dialog" class="rounded-xl border-2 border-pink-500/40 bg-gradient-to-br from-zinc-900 via-indigo-950 to-pink-950 text-slate-100 p-8 shadow-2xl">
     <form method="dialog" class="space-y-3">
-      <h3 class="text-lg font-semibold">Settings</h3>
-      <label class="block text-xs text-slate-400 space-y-2">
+      <h3 class="text-lg text-pink-200 font-black tracking-tight">Settings</h3>
+      <label class="block text-xs text-pink-200 space-y-2">
         <span>OpenAI API Key</span>
-        <input id="api-key" type="password" placeholder="sk-..." class="w-full bg-slate-800/70 border border-slate-700 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <input id="api-key" type="password" placeholder="sk-..." class="w-full bg-slate-800/70 border border-pink-400/40 rounded-lg p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-pink-400" />
       </label>
       <div class="flex gap-2">
-        <button id="save-settings" class="bg-blue-600 hover:bg-blue-500 text-white rounded-lg px-3 py-2 text-sm" value="default">Save</button>
-        <button class="bg-slate-800 border border-slate-700 text-slate-100 rounded-lg px-3 py-2 text-sm" value="cancel">Close</button>
+        <button id="save-settings" class="bg-gradient-to-tr from-pink-600 via-fuchsia-500 to-blue-700 text-white font-semibold rounded-lg px-3 py-2 text-sm shadow" value="default">Save</button>
+        <button class="bg-slate-800 border border-pink-400/40 text-white rounded-lg px-3 py-2 text-sm" value="cancel">Close</button>
       </div>
-      <p class="text-xs text-slate-500 m-0">Your API key is only stored in your browser (localStorage) and never sent anywhere except directly to OpenAI.</p>
+      <p class="text-xs text-fuchsia-100/70 m-0">Your API key is only stored in your browser (localStorage) and never sent anywhere except directly to OpenAI.</p>
     </form>
   </dialog>
 
   <template id="message-template">
     <div class="message grid grid-cols-[36px_1fr] gap-3 group">
-      <div class="avatar w-9 h-9 rounded-xl grid place-items-center bg-slate-800 border border-slate-700 text-lg"></div>
+      <div class="avatar w-9 h-9 rounded-full grid place-items-center bg-gradient-to-br from-pink-500 via-fuchsia-600 to-purple-700 border-4 border-pink-200/40 shadow-lg text-lg">
+        <!-- avatar content (set in JS) -->
+      </div>
       <div class="space-y-1">
-        <div class="bubble bg-slate-800/70 border border-slate-700 rounded-2xl px-3.5 py-3 leading-6"></div>
-        <div class="hidden group-hover:flex gap-2 text-xs text-slate-400">
-          <button data-action="copy" class="px-2 py-1 rounded bg-slate-800 border border-slate-700">Copy</button>
-          <button data-action="retry" class="px-2 py-1 rounded bg-slate-800 border border-slate-700">Retry</button>
-          <button data-action="edit" class="px-2 py-1 rounded bg-slate-800 border border-slate-700">Edit</button>
-          <button data-action="tts" class="px-2 py-1 rounded bg-slate-800 border border-slate-700">Speak</button>
+        <div class="bubble shadow-lg transition-all duration-200 bg-gradient-to-br from-indigo-900/80 via-purple-950/80 to-pink-900/70 border border-fuchsia-400/30 rounded-2xl px-4 py-3 leading-7 group-[.user]:from-pink-600 group-[.user]:to-yellow-400 group-[.user]:via-fuchsia-500 group-[.user]:text-pink-100 group-[.user]:bg-gradient-to-br">
+        </div>
+        <div class="hidden group-hover:flex gap-2 text-xs text-pink-200">
+          <button data-action="copy" class="px-2 py-1 rounded bg-fuchsia-700 hover:bg-pink-600 transition shadow">Copy</button>
+          <button data-action="retry" class="px-2 py-1 rounded bg-pink-800 hover:bg-fuchsia-700 transition shadow">Retry</button>
+          <button data-action="edit" class="px-2 py-1 rounded bg-pink-800 hover:bg-yellow-700 transition shadow">Edit</button>
+          <button data-action="tts" class="px-2 py-1 rounded bg-fuchsia-900 hover:bg-pink-900 transition shadow">Speak</button>
         </div>
       </div>
     </div>
   </template>
-
   <script src="app.js" type="module"></script>
 </body>
 <script>
